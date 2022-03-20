@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.6/purify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js" defer></script>
+    <title>Markdown Preview</title>
+</head>
+<body>
+    <textarea id="editor"></textarea>
+    <section id="preview"></section>
+    <script>
+        const defaultMarkdown = `# Markdown
+## What can you do with a Markdown Previewer
+
+> Dorothy followed her through many of the beautiful rooms in her castle.
+
+Can you find the markdown syntax at [markdownguide.org](https://www.markdownguide.org/basic-syntax/).
+
+                    Can you write code too?
+                    You sure can!
+                    By using 4 indents.
+
+\`Or just use two backticks\`
+
+- Here is a list
+- You can make some pretty documents on markdown!
+
+**Bold text also works!**
+
+![This is a photo of a cat](https://www.pngall.com/wp-content/uploads/2016/03/Cat-PNG-6.png)`
+
+        marked.setOptions({breaks: true});
+        const editorContainer = document.querySelector("#editor");
+        const previewContainer = document.querySelector("#preview");
+
+        // Take default editor container value, parse into markdown syntax and display in preview container.
+        window.onload = () => {
+            editorContainer.innerHTML = defaultMarkdown;
+            previewContainer.innerHTML = marked.parse(defaultMarkdown)
+        }
+
+        // Event listener to fetch input from editor container, then sanitize the HTML before parsing into markdown syntax.
+        editorContainer.addEventListener('input', function() {
+            sanitizeHTML = DOMPurify.sanitize(this.value);
+            previewContainer.innerHTML = marked.parse(sanitizeHTML);
+        })
+    </script>
+</body>
+</html>
